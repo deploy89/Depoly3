@@ -2014,6 +2014,22 @@ async function pollAdminChatNew() {
     const list = await DB.getChatsByUser(currentChatUserId, adminChatLastTs || undefined);
     const fresh = (list || []).sort((a, b) => new Date(a.created_at || a.createdAt) - new Date(b.created_at || b.createdAt));
     appendAdminChatMessages(fresh);
+      try {
+        const rs = await DB.getChatsReadStatus(currentChatUserId);
+        (rs.ids || []).forEach(function(rid) {
+          const el = document.querySelector('[data-cid="' + rid + '"]');
+          if (el) { const tick = el.querySelector('div[style*="text-align:right"]');
+            if (tick && tick.textContent.indexOf('อ่านแล้ว') === -1) { tick.textContent = 'อ่านแล้ว ✓'; tick.style.color = '#22c55e'; } }
+        });
+      } catch (e2) {}
+      try {
+        const rs = await DB.getChatsReadStatus(currentChatUserId);
+        (rs.ids || []).forEach(function(rid) {
+          const el = document.querySelector('[data-cid="' + rid + '"]');
+          if (el) { const tick = el.querySelector('div[style*="text-align:right"]');
+            if (tick && tick.textContent.indexOf('อ่านแล้ว') === -1) { tick.textContent = 'อ่านแล้ว ✓'; tick.style.color = '#22c55e'; } }
+        });
+      } catch (e2) {}
   } catch (e) { console.error('chat poll', e); }
 }
 
