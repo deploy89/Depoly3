@@ -1967,7 +1967,7 @@ function chatTabIsActive() {
 
 function adminChatBubbleHtml(c) {
   const cls = c.sender === 'admin' ? 'admin' : 'user';
-  const del = `<button onclick="deleteAdminChatMsg('${c.id}',this)" title="ลบข้อความ" style="opacity:.65;font-size:16px;padding:4px 8px;flex-shrink:0;background:none;border:none;cursor:pointer;">🗑</button>`;
+  const del = cls === 'admin' ? `<button onclick="deleteAdminChatMsg('${c.id}',this)" title="ลบข้อความ" style="opacity:.65;font-size:16px;padding:4px 8px;flex-shrink:0;background:none;border:none;cursor:pointer;">🗑</button>` : '';
   const readTick = cls === 'admin' ? `<div style="font-size:12px;font-weight:600;width:100%;text-align:right;margin-top:3px;color:${c.read ? '#22c55e' : '#9ca3af'};">${c.read ? 'อ่านแล้ว ✓' : 'ส่งแล้ว'}</div>` : '';
   let inner;
   if (c.type === 'image') {
@@ -2035,7 +2035,7 @@ async function pollAdminChatNew() {
 
 function startChatPolling() {
   stopChatPolling();
-  adminChatMsgTimer = setInterval(function () { if (!document.hidden) pollAdminChatNew(); }, 2500);
+  adminChatMsgTimer = setInterval(function () { if (!document.hidden) pollAdminChatNew(); }, 1500);
   adminChatListTimer = setInterval(function () { if (!document.hidden && chatTabIsActive()) loadChatUsers(); }, 20000);
 }
 
